@@ -1,0 +1,35 @@
+#include <LiquidCrystal_I2C.h>
+#define moist A0
+LiquidCrystal_I2C lcd(0x27,16,2);
+// set the LCD address to 0x3F for a 16 chars and 2 line display
+ void setup() {
+lcd.init();
+lcd.clear();
+lcd.backlight(); // Make sure backlight is on
+lcd.setCursor(0,0); //Set cursor to character 2 on line 0
+lcd.print("Moisture Level:");
+// Print a message on both lines of the LCD.
+//Move cursor to character 2 on line 1
+pinMode(moist,INPUT);
+Serial.begin(9600);
+}
+void loop() {
+int val = analogRead(moist);
+Serial.println(val);
+lcd.setCursor(6,1);
+if(val <500)
+{
+lcd.setCursor(6,1);
+lcd.print("High..!");
+}
+else if (val>500 & val <700)
+{
+lcd.setCursor(6,1);
+lcd.print("Medium!");
+}
+else
+{
+lcd.setCursor(6,1);
+lcd.print("Low...!");
+}
+}
